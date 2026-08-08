@@ -1,0 +1,61 @@
+@hostname = tehuti.lab
+@port = 1234
+# @model_id = openai/gpt-oss-120b
+@model_id = llama-3.1-8b-structuredie-v2.2
+@default_prompt = Find a creative way to say, 'Hello, world!'
+@max_tokens = 200
+@temperature = 0.5
+
+## List available models
+GET http://{{hostname}}:{{port}}/v1/models
+###
+
+## Create a completion
+POST http://{{hostname}}:{{port}}/v1/completions HTTP/1.1
+content-type: application/json
+
+{
+   "model": "{{model_id}}",
+   "prompt": "{{default_prompt}}",
+   "max_tokens": {{max_tokens}},
+   "temperature": {{temperature}}
+}
+###
+
+## Create a chat response ??
+POST http://{{hostname}}:{{port}}/v1/responses
+content-type: application/json
+
+{
+   "model": "{{model_id}}",
+   "input": "{{default_prompt}}",
+   "max_tokens": {{max_tokens}},
+   "temperature": {{temperature}}
+}
+###
+
+## Create a chat completion from a messages array
+POST http://{{hostname}}:{{port}}/v1/chat/completions
+content-type: application/json
+
+{
+   "model": "{{model_id}}",
+   "messages": [
+       {"role": "system", "content": "You are a helpful assistant who gives short and friendly answers, always 30 words or less."},
+       {"role": "user", "content": "{{default_prompt}}"}
+   ],
+   "max_tokens": {{max_tokens}},
+   "temperature": {{temperature}}
+}
+###
+
+## Create embeddings
+POST http://{{hostname}}:{{port}}/v1/embeddings HTTP/1.1
+content-type: application/json
+
+{
+   "model": "{{model_id}}",
+   "input": "Hello, world!"
+}
+###
+

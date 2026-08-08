@@ -1,0 +1,17 @@
+# Ollama API test
+
+@hostname = tehuti.local
+@port = 11434
+@model_id = qwen3-coder:30b
+@default_prompt = When was the War of 1812 fought?
+
+## Create a chat response ??
+POST http://{{hostname}}:11434/api/generate
+content-type: application/json
+
+{
+   "model": "{{model_id}}",
+   "prompt": "{{default_prompt}}",
+   "stream": false
+}
+
