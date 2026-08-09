@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev25": "next dev -H devlab25.lab",
-    "dev26": "next dev -H ubuntu26.lab",
+    "dev": "next dev -p 3001",
+    "dev25": "next dev -H devlab25.lab -p 3001",
+    "dev26": "next dev -H ubuntu26.lab -p 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3001",
     "lint": "eslint"
   },
   "dependencies": {
