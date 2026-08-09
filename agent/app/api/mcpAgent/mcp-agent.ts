@@ -24,9 +24,6 @@ export const mcpAgent = new ToolLoopAgent({
   model,
   instructions: 'You are a helpful assistant.',
   tools: mcpTools as Record<string, Tool<any, any>>,
-  onFinish: async (output) => {
-    mcpClient.close();
-  }
 });
 
 export type McpAgentUIMessage = InferAgentUIMessage<typeof mcpAgent>;
