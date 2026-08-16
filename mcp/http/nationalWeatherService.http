@@ -1,0 +1,42 @@
+## Boston, MA
+@lat=42.3601
+@lon=-71.0589
+@stateCode=MA
+
+## Get alerts
+GET https://api.weather.gov/alerts?area={{stateCode}}
+User-Agent: "weather-app/1.0"
+Accept: "application/geo+json"
+###
+
+## Get forecast URLs
+GET https://api.weather.gov/points/{{lat}},{{lon}}
+User-Agent: "weather-app/1.0"
+Accept: "application/geo+json"
+###
+
+### EXAMPLES returned by the above:
+
+## Get forecast
+GET https://api.weather.gov/gridpoints/BOX/71,101/forecast
+User-Agent: "weather-app/1.0"
+Accept: "application/geo+json"
+###
+
+## Get hourly forecast
+GET https://api.weather.gov/gridpoints/BOX/71,101/forecast/hourly
+User-Agent: "weather-app/1.0"
+Accept: "application/geo+json"
+###
+
+## Get forecast grid data 
+GET https://api.weather.gov/gridpoints/BOX/71,101
+User-Agent: "weather-app/1.0"
+Accept: "application/geo+json"
+###
+
+## Get observation stations
+GET https://api.weather.gov/gridpoints/BOX/71,101/stations
+User-Agent: "weather-app/1.0"
+Accept: "application/geo+json"
+###
