@@ -1,10 +1,9 @@
-import sessions from './codeCampMockData/sessions.json' with { type: 'json' }
-// import speakers from './codeCampMock/speakers.json';
+import sessions from './mock/sessions.json' with { type: 'json' }
 
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { logger } from "../logger.ts";
-import { createTextResult } from "../lib/utils.ts";
+import { logger } from "../../logger.ts";
+import { createTextResult } from "../../lib/utils.ts";
 
 const TOOL_NAME = "codeCampSessions";
 
