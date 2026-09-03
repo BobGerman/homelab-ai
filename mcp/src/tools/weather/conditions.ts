@@ -40,8 +40,8 @@ export default function register(server: McpServer): void {
 async function runTool(server: McpServer, args: any, extra: { sessionId?: string; requestId: unknown }): Promise<any> {
 
     const city: string = args.city?.toLowerCase();
-    const latitude: string = args.latitude?.toString();
-    const longitude: string = args.latitude?.toString();
+    const latitude: number = Number(args.latitude);
+    const longitude: number = Number(args.longitude);
 
     let data = await getCurrentConditions(city, latitude, longitude);
 

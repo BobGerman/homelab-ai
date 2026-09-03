@@ -68,9 +68,9 @@ export async function getCurrentConditions(
     } else {
 
         //#region Real API call
-        const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`
-        );
+        const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=${OPEN_WEATHER_API_KEY}&units=imperial`
+        const response = await fetch(url);
+
         const data = await response.json() as OwmResponse;
         const weatherArray = data.weather;
         result.weather = weatherArray && weatherArray.length > 0 ? weatherArray[0].description : 'unknown';
