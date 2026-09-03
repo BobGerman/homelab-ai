@@ -1,8 +1,8 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
-import { createErrorResult, createTextResult } from "../lib/utils.ts";
-import { logger } from "../logger.ts";
+import { createErrorResult, createTextResult } from "../../lib/utils.ts";
+import { logger } from "../../logger.ts";
 
 type SendLoggingMessageFn = (params: {
     level: "debug" | "info" | "notice" | "warning" | "error" | "critical" | "alert" | "emergency";

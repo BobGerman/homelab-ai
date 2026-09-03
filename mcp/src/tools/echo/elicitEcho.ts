@@ -1,8 +1,8 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { CallToolResult, ElicitRequestFormParams, ElicitResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
-import { createErrorResult, createTextResult } from "../lib/utils.ts";
-import { logger } from "../logger.ts";
+import { createErrorResult, createTextResult } from "../../lib/utils.ts";
+import { logger } from "../../logger.ts";
 
 type ElicitInputFn = (params: ElicitRequestFormParams) => Promise<ElicitResult>;
 type SendLoggingMessageFn = (params: {
