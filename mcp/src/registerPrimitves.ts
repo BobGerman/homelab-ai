@@ -5,6 +5,7 @@ import registerElicitEchoTool from "./tools/echo/elicitEcho.ts";
 import registerCodeCampSessionsTool from "./tools/codeCamp/sessions.ts";
 import registerCodeCampSpeakersTool from "./tools/codeCamp/speakers.ts";
 import registerCodeCampGeneralInfoTool from "./tools/codeCamp/generalInfo.ts";
+import registerWeatherConditionsTool from "./tools/weather/conditions.ts";
 import registerBackgroundInfoResource from "./resources/backgroundInfo.ts";
 
 /**
@@ -19,6 +20,7 @@ export function registerPrimitives(server: McpServer): void {
   registerCodeCampSessionsTool(server);
   registerCodeCampSpeakersTool(server);
   registerCodeCampGeneralInfoTool(server);
+  registerWeatherConditionsTool(server);
 
   // Resources
   registerBackgroundInfoResource(server);
