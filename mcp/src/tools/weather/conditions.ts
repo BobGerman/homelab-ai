@@ -3,7 +3,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { logger } from "../../logger.ts";
 import { createTextResult } from "../../lib/utils.ts";
 
-import { getCurrentConditions } from "./api/owmService.ts";
+import { getCurrentConditions } from "./openWeatherMaps/owmClient.ts";
 
 const TOOL_NAME = "weatherConditions";
 
