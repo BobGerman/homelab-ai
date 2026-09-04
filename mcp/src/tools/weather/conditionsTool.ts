@@ -5,7 +5,7 @@ import { createTextResult } from "../../lib/utils.ts";
 
 import { getCurrentConditions } from "./openWeatherMaps/owmClient.ts";
 
-const TOOL_NAME = "weatherConditions";
+const TOOL_NAME = "get_weather_conditions";
 
 export default function register(server: McpServer): void {
 
@@ -15,8 +15,6 @@ export default function register(server: McpServer): void {
             title: "Current weather condition",
             description: "Retrieve information about Boston CodeCamp sessions.",
             inputSchema: {
-
-                // searchQuery: z.string().optional().describe("The search query for finding sessions"),
 
                 city: z.string().describe("city to get the conditions of"),
                 latitude: z.number().describe("latitude of a point to get the conditions of"),

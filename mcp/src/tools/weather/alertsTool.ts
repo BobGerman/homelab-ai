@@ -4,11 +4,10 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { logger } from "../../logger.ts";
-// import { createTextResult } from "../../lib/utils.ts";
 import { getWeatherAlerts } from "./nationalWeatherService/nwsClient.ts";
-import type { Root as AlertsResponse, Feature } from "./nationalWeatherService/nwsAlertResponse.ts";
+import type { Feature } from "./nationalWeatherService/nwsAlertResponse.ts";
 
-const TOOL_NAME = "get_alerts";
+const TOOL_NAME = "get_weather_alerts";
 
 export default function register(server: McpServer): void {
     server.registerTool(

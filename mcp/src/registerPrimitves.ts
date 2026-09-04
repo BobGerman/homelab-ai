@@ -5,7 +5,7 @@ import registerElicitEchoTool from "./tools/echo/elicitEcho.ts";
 import registerCodeCampSessionsTool from "./tools/codeCamp/sessions.ts";
 import registerCodeCampSpeakersTool from "./tools/codeCamp/speakers.ts";
 import registerCodeCampGeneralInfoTool from "./tools/codeCamp/generalInfo.ts";
-import registerWeatherConditionsTool from "./tools/weather/conditions.ts";
+import registerWeatherConditionsTool from "./tools/weather/conditionsTool.ts";
 import registerWeatherAlertsTool from "./tools/weather/alertsTool.ts";
 import registerBackgroundInfoResource from "./resources/backgroundInfo.ts";
 
