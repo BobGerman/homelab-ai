@@ -4,16 +4,15 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { logger } from "../../logger.ts";
-import { createTextResult } from "../../lib/utils.ts";
-import { makeNWSRequest } from "./nationalWeatherService/nwsClient.ts";
-import type { Feature } from "./nationalWeatherService/nwsAlertResponse.ts";
+// import { createTextResult } from "../../lib/utils.ts";
+import { getWeatherAlerts } from "./nationalWeatherService/nwsClient.ts";
+import type { Root as AlertsResponse, Feature } from "./nationalWeatherService/nwsAlertResponse.ts";
 
-const NWS_API_BASE = "https://api.weather.gov";
-const USER_AGENT = "weather-app/1.0";
+const TOOL_NAME = "get_alerts";
 
 export default function register(server: McpServer): void {
     server.registerTool(
-        "get_alerts",
+        TOOL_NAME,
         {
             description: "Get weather alerts for a state",
             inputSchema: z.object({
@@ -23,12 +22,16 @@ export default function register(server: McpServer): void {
                     .describe("Two-letter state code (e.g. CA, NY)"),
             }),
         },
-        async ({ state }) => {
+        async ({ state }, extra) => {
+
             const stateCode = state.toUpperCase();
-            const alertsUrl = `${NWS_API_BASE}/alerts?area=${stateCode}`;
-            const alertsData = await makeNWSRequest<AlertsResponse>(alertsUrl);
+            const alertsData = await getWeatherAlerts(stateCode);
 
             if (!alertsData) {
+
+                logger.info({ sessionId: extra.sessionId, requestId: extra.requestId },
+                    `${TOOL_NAME} Tool failed to retrieve alerts data for ${stateCode}`);
+
                 return {
                     content: [
                         {
@@ -40,7 +43,11 @@ export default function register(server: McpServer): void {
             }
 
             const features = alertsData.features || [];
+            logger.info({ sessionId: extra.sessionId, requestId: extra.requestId },
+                `${TOOL_NAME} Tool returned ${features.length} weather alerts for ${stateCode}`);
+
             if (!features.length) {
+
                 return {
                     content: [
                         {
