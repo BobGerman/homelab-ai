@@ -1,4 +1,4 @@
-import type { OwmResponse } from './owmResponse';
+import type { Root as OwmResponse } from './owmResponse';
 
 export type weatherConditions = {
     city: string;
