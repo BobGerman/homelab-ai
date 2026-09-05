@@ -1,7 +1,6 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { logger } from "../../logger.ts";
-import { createTextResult } from "../../lib/utils.ts";
 
 import { getCurrentConditions } from "./openWeatherMaps/owmClient.ts";
 
@@ -13,16 +12,15 @@ export default function register(server: McpServer): void {
         TOOL_NAME,
         {
             title: "Current weather condition",
-            description: "Retrieve information about Boston CodeCamp sessions.",
+            description: "Retrieve current weather conditions for a location",
             inputSchema: {
+                latitude: z
+                    .number()
+                    .describe("latitude of a location"),
+                longitude: z
+                    .number()
+                    .describe("longitude of a location")
 
-                city: z.string().describe("city to get the conditions of"),
-                latitude: z.number().describe("latitude of a point to get the conditions of"),
-                longitude: z.number().describe("longitude of a point to get the conditions of")
-
-            },
-            outputSchema: {
-                conditions: z.string().describe("JSON containing the current weather conditions"),
             },
             annotations: {
                 readOnlyHint: true,
@@ -30,21 +28,27 @@ export default function register(server: McpServer): void {
                 openWorldHint: false,
             },
         },
-        (args, extra) => runTool(server, args, extra),
+        (args, extra) => runTool(args, extra),
     );
 }
 
 // Code to run when the tool is executed
-async function runTool(server: McpServer, args: any, extra: { sessionId?: string; requestId: unknown }): Promise<any> {
+async function runTool(args: any, extra: { sessionId?: string; requestId: unknown }): Promise<any> {
 
-    const city: string = args.city?.toLowerCase();
     const latitude: number = Number(args.latitude);
     const longitude: number = Number(args.longitude);
 
-    let data = await getCurrentConditions(city, latitude, longitude);
+    let data = await getCurrentConditions(latitude, longitude);
 
     logger.info({ data, sessionId: extra.sessionId, requestId: extra.requestId },
-        `${TOOL_NAME} Tool returned weather conditions for ${args.city} and got ${data.weather}`);
+        `${TOOL_NAME} Tool returned weather conditions for ${args.latitude}, ${args.longitude} and got ${data.weather}`);
 
-    return createTextResult({ conditions: JSON.stringify(data) });
+    return {
+        content: [
+            {
+                type: "text",
+                text: JSON.stringify(data)
+            }
+        ]
+    }
 }
