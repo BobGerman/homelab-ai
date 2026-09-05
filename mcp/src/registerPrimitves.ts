@@ -8,6 +8,7 @@ import registerCodeCampGeneralInfoTool from "./tools/codeCamp/generalInfo.ts";
 import registerWeatherConditionsTool from "./tools/weather/conditionsTool.ts";
 import registerWeatherAlertsTool from "./tools/weather/alertsTool.ts";
 import registerWeatherForecastTool from "./tools/weather/forecastTool.ts";
+import registerHourlyForecastTool from "./tools/weather/hourlyForecastTool.ts";
 import registerBackgroundInfoResource from "./resources/backgroundInfo.ts";
 
 /**
@@ -25,6 +26,7 @@ export function registerPrimitives(server: McpServer): void {
   registerWeatherConditionsTool(server);
   registerWeatherAlertsTool(server);
   registerWeatherForecastTool(server);
+  registerHourlyForecastTool(server);
 
   // Resources
   registerBackgroundInfoResource(server);

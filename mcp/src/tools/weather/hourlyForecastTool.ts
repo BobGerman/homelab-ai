@@ -1,16 +1,15 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { logger } from "../../logger.ts";
-import { getWeatherForecast } from "./nationalWeatherService/nwsClient.ts";
-import type { Feature } from "./nationalWeatherService/nwsAlertResponse.ts";
+import { getHourlyForecast } from "./nationalWeatherService/nwsClient.ts";
 
-const TOOL_NAME = "get_weather_forecast";
+const TOOL_NAME = "get_hourly_weather_forecast";
 
 export default function register(server: McpServer): void {
     server.registerTool(
         TOOL_NAME,
         {
-            description: "Get daily weather forecast for a location",
+            description: "Get hourly weather forecast for a location",
             inputSchema: z.object({
                 latitude: z
                     .number()
@@ -26,7 +25,7 @@ export default function register(server: McpServer): void {
         },
         async ({ latitude, longitude }, extra) => {
 
-            const forecastData = await getWeatherForecast(latitude, longitude);
+            const forecastData = await getHourlyForecast(latitude, longitude);
 
             if (!forecastData) {
 
@@ -56,15 +55,18 @@ export default function register(server: McpServer): void {
             }
 
             // Format forecast periods
-            const formattedForecast = periods.map((period: ForecastPeriod) =>
-                [
-                    `${period.name || "Unknown"}:`,
-                    `Temperature: ${period.temperature || "Unknown"}°${period.temperatureUnit || "F"}`,
-                    `Wind: ${period.windSpeed || "Unknown"} ${period.windDirection || ""}`,
-                    `${period.shortForecast || "No forecast available"}`,
-                    "---",
-                ].join("\n"),
-            );
+            const formattedForecast = periods.map((period) => {
+                const start = new Date(period.startTime);
+                const end = new Date(period.endTime);
+                return (
+                    `${start.toLocaleTimeString('en-US') || "Unknown"} - ` +
+                    `${end.toLocaleTimeString('en-US') || "Unknown"}: \n` +
+                    `Temperature: ${period.temperature || "Unknown"}°${period.temperatureUnit || "F"}\n` +
+                    `Wind: ${period.windSpeed || "Unknown"} ${period.windDirection || ""}\n` +
+                    `Conditions: ${period.shortForecast || "No forecast available"}\n` +
+                    "---"
+                );
+            });
 
             const forecastText = `Forecast for ${latitude}, ${longitude}:\n\n${formattedForecast.join("\n")}`;
 

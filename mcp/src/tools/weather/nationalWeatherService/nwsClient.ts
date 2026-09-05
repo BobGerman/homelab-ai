@@ -1,6 +1,7 @@
 import type { Root as AlertsResponse } from "./nwsAlertResponse.ts";
 import type { Root as PointsResponse } from "./nwsPointResponse.ts";
 import type { Root as ForecastResponse } from "./nwsForecastResponse.ts";
+import type { Root as HourlyForecastResponse } from "./nwsHourlyForecastResponse.ts";
 
 const NWS_API_BASE = "https://api.weather.gov";
 const USER_AGENT = "weather-app/1.0";
@@ -34,6 +35,29 @@ export async function getWeatherForecast(latitude: number, longitude: number):
     return forecastData;
 
 }
+
+export async function getHourlyForecast(latitude: number, longitude: number):
+    Promise<HourlyForecastResponse | null> {
+
+    // Get grid point data
+    const pointsUrl = `${NWS_API_BASE}/points/${latitude.toFixed(4)},${longitude.toFixed(4)}`;
+    const pointsData = await makeNWSRequest<PointsResponse>(pointsUrl);
+
+    if (!pointsData) {
+        return null;
+    }
+
+    const forecastUrl = pointsData.properties?.forecastHourly;
+    if (!forecastUrl) {
+        return null;
+    }
+
+    // Get forecast data
+    const forecastData = await makeNWSRequest<HourlyForecastResponse>(forecastUrl);
+    return forecastData;
+
+}
+
 
 async function makeNWSRequest<T>(url: string): Promise<T | null> {
     const headers = {
