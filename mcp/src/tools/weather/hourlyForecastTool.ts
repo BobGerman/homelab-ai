@@ -23,6 +23,11 @@ export default function register(server: McpServer): void {
                     .max(180)
                     .describe("Longitude of the location"),
             }),
+            annotations: {
+                readOnlyHint: true,
+                idempotentHint: true,
+                openWorldHint: false,
+            },
         },
         async ({ latitude, longitude }, extra) => {
 

@@ -18,6 +18,12 @@ export default function register(server: McpServer): void {
                     .length(2)
                     .describe("Two-letter state code (e.g. CA, NY)"),
             }),
+            annotations: {
+                readOnlyHint: true,
+                idempotentHint: true,
+                openWorldHint: false,
+            },
+
         },
         async ({ state }, extra) => {
 
