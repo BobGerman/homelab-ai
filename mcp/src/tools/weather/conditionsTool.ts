@@ -28,27 +28,24 @@ export default function register(server: McpServer): void {
                 openWorldHint: false,
             },
         },
-        (args, extra) => runTool(args, extra),
-    );
-}
+        async (args: any, extra: { sessionId?: string; requestId: unknown }): Promise<any> => {
 
-// Code to run when the tool is executed
-async function runTool(args: any, extra: { sessionId?: string; requestId: unknown }): Promise<any> {
+            const latitude: number = Number(args.latitude);
+            const longitude: number = Number(args.longitude);
 
-    const latitude: number = Number(args.latitude);
-    const longitude: number = Number(args.longitude);
+            let data = await getCurrentConditions(latitude, longitude);
 
-    let data = await getCurrentConditions(latitude, longitude);
+            logger.info({ data, sessionId: extra.sessionId, requestId: extra.requestId },
+                `${TOOL_NAME} Tool returned weather conditions for ${args.latitude}, ${args.longitude} and got ${data.weather}`);
 
-    logger.info({ data, sessionId: extra.sessionId, requestId: extra.requestId },
-        `${TOOL_NAME} Tool returned weather conditions for ${args.latitude}, ${args.longitude} and got ${data.weather}`);
-
-    return {
-        content: [
-            {
-                type: "text",
-                text: JSON.stringify(data)
+            return {
+                content: [
+                    {
+                        type: "text",
+                        text: JSON.stringify(data)
+                    }
+                ]
             }
-        ]
-    }
-}
+        }
+    )
+};
