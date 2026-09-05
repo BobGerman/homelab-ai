@@ -1,6 +1,3 @@
-// Portions in this module originated with the mcp tutorial:
-// https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server
-
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { logger } from "../../logger.ts";
