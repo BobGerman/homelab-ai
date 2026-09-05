@@ -9,7 +9,8 @@ import registerWeatherConditionsTool from "./tools/weather/conditionsTool.ts";
 import registerWeatherAlertsTool from "./tools/weather/alertsTool.ts";
 import registerWeatherForecastTool from "./tools/weather/forecastTool.ts";
 import registerHourlyForecastTool from "./tools/weather/hourlyForecastTool.ts";
-import registerTimeAndPlaceTool from "./tools/timeAndPlace/timeTool.ts";
+import registerPlaceTool from "./tools/timeAndPlace/placeTool.ts";
+import registerTimeTool from "./tools/timeAndPlace/timeTool.ts";
 
 import registerBackgroundInfoResource from "./resources/backgroundInfo.ts";
 
@@ -29,7 +30,8 @@ export function registerPrimitives(server: McpServer): void {
   registerWeatherAlertsTool(server);
   registerWeatherForecastTool(server);
   registerHourlyForecastTool(server);
-  registerTimeAndPlaceTool(server);
+  registerPlaceTool(server);
+  registerTimeTool(server);
 
   // Resources
   registerBackgroundInfoResource(server);
