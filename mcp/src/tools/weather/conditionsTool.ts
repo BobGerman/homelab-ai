@@ -35,8 +35,8 @@ export default function register(server: McpServer): void {
 
             let data = await getCurrentConditions(latitude, longitude);
 
-            logger.info({ data, sessionId: extra.sessionId, requestId: extra.requestId },
-                `${TOOL_NAME} Tool returned weather conditions for ${args.latitude}, ${args.longitude} and got ${data.weather}`);
+            logger.info({ sessionId: extra.sessionId, requestId: extra.requestId },
+                `${TOOL_NAME} tool returned weather conditions for ${args.latitude}, ${args.longitude} and got ${data.weather}`);
 
             return {
                 content: [
