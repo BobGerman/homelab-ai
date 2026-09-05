@@ -1,12 +1,12 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { logger } from "../../logger.ts";
-
+import tzlookup from "tz-lookup";
 
 const TOOL_NAME = "get_date_and_time";
 
 export default function register(server: McpServer): void {
-
+    tzlookup;
     server.registerTool(
         TOOL_NAME,
         {
@@ -32,16 +32,33 @@ export default function register(server: McpServer): void {
             const latitude: number = Number(args.latitude);
             const longitude: number = Number(args.longitude);
 
-            let data = await getCurrentConditions(latitude, longitude);
+            const timeZone = tzlookup(latitude, longitude);
+            const now = new Date();
+            const utcDateTime = new Intl.DateTimeFormat("en-us",
+                {
+                    dateStyle: "full",
+                    timeStyle: "long",
+                    timeZone: "utc",
+                }
+            ).format(now);
+            const localDateTime = new Intl.DateTimeFormat("en-us",
+                {
+                    dateStyle: "full",
+                    timeStyle: "long",
+                    timeZone: timeZone,
+                }
+            ).format(now);
 
             logger.info({ sessionId: extra.sessionId, requestId: extra.requestId },
-                `${TOOL_NAME} tool returned weather conditions for ${args.latitude}, ${args.longitude} and got ${data.weather}`);
+                `${TOOL_NAME} tool returned time zone ${timeZone} for ${args.latitude}, ${args.longitude}`);
 
             return {
                 content: [
                     {
                         type: "text",
-                        text: JSON.stringify(data)
+                        text: `time zone: ${timeZone}\n` +
+                            `current date time: ${localDateTime}\n` +
+                            `utc date and time: ${utcDateTime}`
                     }
                 ]
             }
