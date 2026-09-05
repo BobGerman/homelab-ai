@@ -9,6 +9,7 @@ export default function register(server: McpServer): void {
     server.registerTool(
         TOOL_NAME,
         {
+            title: "Hourly weather forecast",
             description: "Get hourly weather forecast for a location",
             inputSchema: z.object({
                 latitude: z

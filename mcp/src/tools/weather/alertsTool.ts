@@ -10,6 +10,7 @@ export default function register(server: McpServer): void {
     server.registerTool(
         TOOL_NAME,
         {
+            title: "Weather alerts",
             description: "Get weather alerts for a state",
             inputSchema: z.object({
                 state: z
