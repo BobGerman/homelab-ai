@@ -1,0 +1,21 @@
+# Add this to your VS Code settings.json file:
+# "rest-client.environmentVariables": {
+#   "$shared": {
+#       "usdaApiKey": "(your FDC API key here)"
+#   }
+# }
+
+@searchQuery=smartfood
+@fdcid=1483880
+
+## Search for food
+GET https://api.nal.usda.gov/fdc/v1/foods/search/?query={{searchQuery}}&api_key={{usdaApiKey}}
+###
+
+## List foods (abridged)
+GET https://api.nal.usda.gov/fdc/v1/foods/list/?query={{searchQuery}}&api_key={{usdaApiKey}}
+###
+
+## Get food
+GET https://api.nal.usda.gov/fdc/v1/food/{{fdcid}}?api_key={{usdaApiKey}}
+###

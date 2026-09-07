@@ -1,7 +1,7 @@
 # Add this to your VS Code settings.json file:
 # "rest-client.environmentVariables": {
 #   "$shared": {
-#       "apiKey": "(your OpenWeatherMap API key here)"
+#       "owmApiKey": "(your OpenWeatherMap API key here)"
 #   }
 # }
 
@@ -10,5 +10,5 @@
 @lon=-71.0589
 
 ## Get weather 
-GET https://api.openweathermap.org/data/2.5/weather?lat={{lat}}&lon={{lon}}&appid={{apiKey}}&units=imperial
+GET https://api.openweathermap.org/data/2.5/weather?lat={{lat}}&lon={{lon}}&appid={{owmApiKey}}&units=imperial
 ###
