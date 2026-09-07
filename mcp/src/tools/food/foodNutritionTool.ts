@@ -58,11 +58,21 @@ export default function register(server: McpServer): void {
                 };
             }
 
+            const result = foods.map(f => ({
+                name: f.description,
+                brand: f.brandOwner || "",
+                nutrients: f.foodNutrients?.map(n => ({
+                    name: n.name,
+                    amount: n.amount,
+                    units: n.unitName,
+                }))
+            }));
+
             return {
                 content: [
                     {
                         type: "text",
-                        text: JSON.stringify(foods),
+                        text: JSON.stringify(result),
                     },
                 ],
             };
