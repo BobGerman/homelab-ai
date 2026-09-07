@@ -11,6 +11,7 @@ import registerWeatherForecastTool from "./tools/weather/forecastTool.ts";
 import registerHourlyForecastTool from "./tools/weather/hourlyForecastTool.ts";
 import registerPlaceTool from "./tools/timeAndPlace/placeTool.ts";
 import registerTimeTool from "./tools/timeAndPlace/timeTool.ts";
+import registerFoodNutritionTool from "./tools/food/foodNutritionTool.ts"
 
 import registerBackgroundInfoResource from "./resources/backgroundInfo.ts";
 
@@ -32,6 +33,7 @@ export function registerPrimitives(server: McpServer): void {
   registerHourlyForecastTool(server);
   registerPlaceTool(server);
   registerTimeTool(server);
+  registerFoodNutritionTool(server);
 
   // Resources
   registerBackgroundInfoResource(server);
