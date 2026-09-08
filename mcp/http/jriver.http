@@ -1,0 +1,12 @@
+# JRiver only returns XML not JSON.
+
+## JRiver server
+@jriverBaseUrl=http://calliope.local:8080/MCWS/v1
+
+## Play
+GET {{jriverBaseUrl}}/Playback/Play
+###
+
+## Get current song info
+GET {{jriverBaseUrl}}/Playback/Info
+###
