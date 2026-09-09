@@ -1,10 +1,12 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { createErrorResult, createTextResult } from "../../lib/utils.ts";
+import { createTextResult } from "../../lib/utils.ts";
 import { logger } from "../../logger.ts";
+import type { FoodNutrient } from "./usda/fdcFoodSearchResponse.ts";
 import { searchFoodNutritionalData } from "./usda/fdcClient.ts";
 
 const TOOL_NAME = "search_nutrition_data";
+const NUTRIENT_LIST = ["protein", "energy", "fiber", "carbohydrates"];
 
 export default function register(server: McpServer): void {
     server.registerTool(
@@ -93,23 +95,29 @@ export default function register(server: McpServer): void {
                     servingSize: f.servingSize || 1,
                     servingSizeUnit: f.servingSizeUnit || "",
                     ingredients: f.ingredients || "",
-                    nutrients: f.foodNutrients?.map(n => ({
-                        name: n.nutrientName || "",
-                        amount: n.value + " " + n.unitName,
-                    }))
+                    nutrients: f.foodNutrients?.flatMap(n => {
+                        if (showNutrient(n)) {
+                            return [{
+                                name: n.nutrientName || "",
+                                amount: n.value + " " + n.unitName,
+                            }];
+                        } else {
+                            return [];
+                        }
+                    })
                 }))
             };
 
             return createTextResult(result);
-            // return {
-            //     // content: [
-            //     //     {
-            //     //         type: "text",
-            //     //         text: JSON.stringify(result),
-            //     //     },
-            //     // ],
-            //     result
-            // };
         },
     );
+}
+
+function showNutrient(n: FoodNutrient): boolean {
+    for (const nutrient of NUTRIENT_LIST) {
+        if (nutrient.indexOf(n.nutrientName.toLowerCase()) >= 0) {
+            return true;
+        }
+    }
+    return false;
 }
