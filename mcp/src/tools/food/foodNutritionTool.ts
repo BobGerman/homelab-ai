@@ -10,7 +10,8 @@ export default function register(server: McpServer): void {
         TOOL_NAME,
         {
             title: "Search food nutrition data",
-            description: "Search the USDA Food Data Central database",
+            description:
+                `Search the USDA Food Data Central database.`,
             inputSchema: z.object({
                 query: z
                     .string()
@@ -42,7 +43,7 @@ export default function register(server: McpServer): void {
                 };
             }
 
-            const foods = nutritionData || [];
+            const foods = nutritionData?.foods || [];
             logger.info({ sessionId: extra.sessionId, requestId: extra.requestId },
                 `${TOOL_NAME} Tool returned ${foods.length} foods for ${query}`);
 
@@ -58,15 +59,21 @@ export default function register(server: McpServer): void {
                 };
             }
 
-            const result = foods.map(f => ({
-                name: f.description,
-                brand: f.brandOwner || "",
-                nutrients: f.foodNutrients?.map(n => ({
-                    name: n.name,
-                    amount: n.amount,
-                    units: n.unitName,
+            const result = {
+                totalFoods: nutritionData.totalHits,
+                returnedFoods: foods.length,
+                foods: foods.map(f => ({
+                    name: f.description,
+                    brand: f.brandOwner || "",
+                    servingSize: f.servingSize,
+                    servingSizeUnit: f.servingSizeUnit,
+                    ingredients: f.ingredients,
+                    nutrients: f.foodNutrients?.map(n => ({
+                        name: n.nutrientName,
+                        amount: n.value + " " + n.unitName,
+                    }))
                 }))
-            }));
+            };
 
             return {
                 content: [
